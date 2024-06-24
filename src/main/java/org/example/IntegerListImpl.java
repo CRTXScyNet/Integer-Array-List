@@ -1,8 +1,8 @@
 package org.example;
 
 import org.example.integerListException.IllegalIndexException;
-import org.example.integerListException.ItemIsNullException;
 import org.example.integerListException.IntegerNotFoundException;
+import org.example.integerListException.ItemIsNullException;
 import org.example.integerListInterface.IntegerList;
 
 public class IntegerListImpl implements IntegerList {
@@ -104,7 +104,8 @@ public class IntegerListImpl implements IntegerList {
         sortInsertion();
         return binarySearch(item);
     }
-    private boolean binarySearch(Integer element){
+
+    private boolean binarySearch(Integer element) {
         int min = 0;
         int max = values.length - 1;
 
@@ -191,28 +192,30 @@ public class IntegerListImpl implements IntegerList {
     }
 
 
-    public void sortSelection() {
+    private void sortSelection() {
         for (int i = 0; i < size; i++) {
-            int minIdx =i;
+            int minIdx = i;
             for (int j = i; j < size; j++) {
                 if (values[j] <
-                        values[minIdx]){
+                        values[minIdx]) {
                     minIdx = j;
                 }
             }
-            swap(i,minIdx);
+            swap(i, minIdx);
         }
     }
-    public void sortBubble() {
+
+    private void sortBubble() {
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size-1 - i; j++) {
+            for (int j = 0; j < size - 1 - i; j++) {
                 if (values[j] > values[j + 1]) {
-                    swap( j, j + 1);
+                    swap(j, j + 1);
                 }
             }
         }
     }
-    public void sortInsertion() {
+
+    private void sortInsertion() {
         for (int i = 1; i < size; i++) {
             int temp = values[i];
             int j = i;
@@ -223,7 +226,8 @@ public class IntegerListImpl implements IntegerList {
             values[j] = temp;
         }
     }
-    private void swap( int fIdx, int sIdx){
+
+    private void swap(int fIdx, int sIdx) {
         Integer temp = values[fIdx];
         values[fIdx] = values[sIdx];
         values[sIdx] = temp;
@@ -275,10 +279,11 @@ public class IntegerListImpl implements IntegerList {
     }
 
     private void checkIndexOutOfBoundsException(int index) {
-        if (index >= size  || index < 0) {
+        if (index >= size || index < 0) {
             throw new IllegalIndexException("Недопустимый индекс '" + index + "' для размера '" + size + "'");
         }
     }
+
     static public void print(IntegerList list) {
         System.out.print("[ ");
         for (int i = 0; i < list.size(); i++) {
@@ -289,11 +294,29 @@ public class IntegerListImpl implements IntegerList {
         }
         System.out.println(" ]");
     }
-    public static IntegerListImpl generateRandomList(int i){
+
+    public static IntegerListImpl generateRandomList(int i) {
         IntegerListImpl integerList = new IntegerListImpl();
         for (int j = 0; j < i; j++) {
-            integerList.add((int) (Math.random()*100)-50);
+            integerList.add((int) (Math.random() * 100) - 50);
         }
         return integerList;
+    }
+
+    static void checkTime(int i) {
+        IntegerListImpl integerList = IntegerListImpl.generateRandomList(10000);
+
+//        IntegerListImpl.print(integerList);
+        long start = System.currentTimeMillis();
+        if (i == 0) {
+            integerList.sortSelection();
+        } else if (i == 1) {
+            integerList.sortBubble();
+        } else {
+            integerList.sortInsertion();
+        }
+        //ваш_метод_сортировки(arr);
+        System.out.println("Method " + i + " takes " + (System.currentTimeMillis() - start) + " ms");
+//        IntegerListImpl.print(integerList);
     }
 }

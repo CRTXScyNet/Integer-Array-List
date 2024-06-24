@@ -22,27 +22,12 @@ public class Main {
 //        System.out.println(list1.equals(list));
 
 
-        checkTime(0);
+        IntegerListImpl.checkTime(0);
         System.out.println();
-        checkTime(1);
+        IntegerListImpl.checkTime(1);
         System.out.println();
-        checkTime(2);
+        IntegerListImpl.checkTime(2);
     }
 
-    static void checkTime(int i){
-        IntegerListImpl integerList = IntegerListImpl.generateRandomList(10000);
 
-//        IntegerListImpl.print(integerList);
-        long start = System.currentTimeMillis();
-        if (i == 0){
-            integerList.sortSelection();
-        }else if (i == 1){
-            integerList.sortBubble();
-        }else {
-            integerList.sortInsertion();
-        }
-                       //ваш_метод_сортировки(arr);
-        System.out.println(System.currentTimeMillis() - start);
-//        IntegerListImpl.print(integerList);
-    }
 }

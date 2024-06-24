@@ -301,63 +301,63 @@ class IntegerListImplTest {
         assertTrue(list.toArray() instanceof Integer[]);
     }
 
-    @Test
-    void sortSelection() {
-        //given
-        IntegerListImpl list1 = new IntegerListImpl();
-        list1.add(1);
-        list1.add(2);
-        list1.add(4);
-        list1.add(23);
-        list1.add(34);
-        list.add(23);
-        list.add(4);
-        list.add(1);
-        list.add(34);
-        list.add(2);
-        //do
-        list.sortSelection();
-        //then
-        assertTrue(list.equals(list1));
-    }
-
-    @Test
-    void sortBubble() {
-        //given
-        IntegerListImpl list1 = new IntegerListImpl();
-        list1.add(1);
-        list1.add(2);
-        list1.add(4);
-        list1.add(23);
-        list1.add(34);
-        list.add(23);
-        list.add(4);
-        list.add(1);
-        list.add(34);
-        list.add(2);
-        //do
-        list.sortBubble();
-        //then
-        assertTrue(list.equals(list1));
-    }
-
-    @Test
-    void sortInsertion() {
-        //given
-        IntegerListImpl list1 = new IntegerListImpl();
-        list1.add(1);
-        list1.add(2);
-        list1.add(4);
-        list1.add(23);
-        list1.add(34);
-        list.add(23);
-        list.add(4);
-        list.add(1);
-        list.add(34);
-        list.add(2);
-        //do
-        list.sortInsertion();
-        //then
-        assertTrue(list.equals(list1));
-    }
+//    @Test
+//    void sortSelection() {
+//        //given
+//        IntegerListImpl list1 = new IntegerListImpl();
+//        list1.add(1);
+//        list1.add(2);
+//        list1.add(4);
+//        list1.add(23);
+//        list1.add(34);
+//        list.add(23);
+//        list.add(4);
+//        list.add(1);
+//        list.add(34);
+//        list.add(2);
+//        //do
+//        list.sortSelection();
+//        //then
+//        assertTrue(list.equals(list1));
+//    }
+//
+//    @Test
+//    void sortBubble() {
+//        //given
+//        IntegerListImpl list1 = new IntegerListImpl();
+//        list1.add(1);
+//        list1.add(2);
+//        list1.add(4);
+//        list1.add(23);
+//        list1.add(34);
+//        list.add(23);
+//        list.add(4);
+//        list.add(1);
+//        list.add(34);
+//        list.add(2);
+//        //do
+//        list.sortBubble();
+//        //then
+//        assertTrue(list.equals(list1));
+//    }
+//
+//    @Test
+//    void sortInsertion() {
+//        //given
+//        IntegerListImpl list1 = new IntegerListImpl();
+//        list1.add(1);
+//        list1.add(2);
+//        list1.add(4);
+//        list1.add(23);
+//        list1.add(34);
+//        list.add(23);
+//        list.add(4);
+//        list.add(1);
+//        list.add(34);
+//        list.add(2);
+//        //do
+//        list.sortInsertion();
+//        //then
+//        assertTrue(list.equals(list1));
+//    }
 }
