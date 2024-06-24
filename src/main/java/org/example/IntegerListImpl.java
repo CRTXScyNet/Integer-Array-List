@@ -22,7 +22,7 @@ public class IntegerListImpl implements IntegerList {
     }
 
     public IntegerListImpl() {
-        this.values = new Integer[0];
+        this.values = new Integer[4];
         size = 0;
     }
 
@@ -30,7 +30,7 @@ public class IntegerListImpl implements IntegerList {
     public Integer add(Integer item) {
         checkNullPointerExceptionException(item);
         if (isBoundsAreReached()) {
-            values = newArray(true);
+            values = grow();
         }
         values[size] = item;
         size++;
@@ -53,8 +53,7 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public Integer set(int index, Integer item) {
-
-
+        checkIndexOutOfBoundsException(index);
         checkNullPointerExceptionException(item);
 
         Integer previous = Integer.MIN_VALUE;
@@ -103,22 +102,22 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(Integer item) {
         checkNullPointerExceptionException(item);
-
-        return binarySearch(sortInsertion(values), item);
+        Integer[] temp = toArray();
+        return binarySearch(quickSort(temp,0,temp.length-1), item);
     }
 
     private boolean binarySearch(Integer[] arr, Integer element) {
         int min = 0;
-        int max = values.length - 1;
+        int max = arr.length - 1;
 
         while (min <= max) {
             int mid = (min + max) / 2;
 
-            if (element == values[mid]) {
+            if (element == arr[mid]) {
                 return true;
             }
 
-            if (element < values[mid]) {
+            if (element < arr[mid]) {
                 max = mid - 1;
             } else {
                 min = mid + 1;
@@ -219,6 +218,9 @@ public class IntegerListImpl implements IntegerList {
     }
 
     public static Integer[] sortInsertion(Integer[] arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
         for (int i = 1; i < arr.length; i++) {
             int temp = arr[i];
             int j = i;
@@ -230,7 +232,31 @@ public class IntegerListImpl implements IntegerList {
         }
         return arr;
     }
+    public static Integer[] quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
 
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+        return arr;
+    }
+
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swap(arr, i, j);
+            }
+        }
+
+        swap(arr, i + 1, end);
+        return i + 1;
+    }
     private static Integer[] swap(Integer[] arr, int fIdx, int sIdx) {
         Integer temp = arr[fIdx];
         arr[fIdx] = arr[sIdx];
@@ -243,34 +269,23 @@ public class IntegerListImpl implements IntegerList {
         return values.length <= size;
     }
 
-    private Integer[] newArray(boolean expand) {
-        Integer[] newVal;
-
-        if (expand) {
-            newVal = new Integer[values.length + 1];
-        } else {
-            newVal = new Integer[values.length];
+    private Integer[] grow() {
+        if (values.length <3){
+            return Arrays.copyOf(values, 5);
         }
-        for (int i = 0; i < size; i++) {
-            newVal[i] = values[i];
-        }
-        return newVal;
+        return Arrays.copyOf(values, (int) (values.length * 1.5));
     }
 
     private void shiftArray(int index, boolean right) {
-        Integer[] newVal;
-
         if (right) {
             if (isBoundsAreReached()) {
-                values = newArray(true);
-            } else {
-                values = newArray(false);
+                values = grow();
             }
             for (int i = values.length - 1; i > index; i--) {
                 values[i] = values[i - 1];
             }
         } else {
-            values = newArray(false);
+            values = toArray();
             for (int i = index; i < values.length - 1; i++) {
                 values[i] = values[i + 1];
             }
@@ -308,7 +323,7 @@ public class IntegerListImpl implements IntegerList {
         return integerList;
     }
 
-    static void checkTime(int i) {
+    static void checkTime() {
 
         Integer[] list = IntegerListImpl.generateRandomList(100000).toArray();
         Integer[] list2 = Arrays.copyOf(list, list.length);
@@ -317,7 +332,6 @@ public class IntegerListImpl implements IntegerList {
 //        IntegerListImpl.print(integerList);
         long start = System.currentTimeMillis();
         sortSelection(list);
-        //ваш_метод_сортировки(arr);
         System.out.println("Method sortSelection takes " + (System.currentTimeMillis() - start) + " ms");
 
         System.out.println();
@@ -330,7 +344,6 @@ public class IntegerListImpl implements IntegerList {
 
         start = System.currentTimeMillis();
         sortInsertion(list3);
-        //ваш_метод_сортировки(arr);
         System.out.println("Method sortInsertion takes " + (System.currentTimeMillis() - start) + " ms");
 //        IntegerListImpl.print(integerList);
     }
