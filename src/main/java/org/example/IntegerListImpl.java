@@ -107,7 +107,7 @@ public class IntegerListImpl implements IntegerList {
         return binarySearch(sortInsertion(values), item);
     }
 
-    private boolean binarySearch(Integer[] arr,Integer element) {
+    private boolean binarySearch(Integer[] arr, Integer element) {
         int min = 0;
         int max = values.length - 1;
 
@@ -316,7 +316,7 @@ public class IntegerListImpl implements IntegerList {
 
 //        IntegerListImpl.print(integerList);
         long start = System.currentTimeMillis();
-            sortSelection(list);
+        sortSelection(list);
         //ваш_метод_сортировки(arr);
         System.out.println("Method sortSelection takes " + (System.currentTimeMillis() - start) + " ms");
 
