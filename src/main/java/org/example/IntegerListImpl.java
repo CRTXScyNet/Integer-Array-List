@@ -103,7 +103,7 @@ public class IntegerListImpl implements IntegerList {
     public boolean contains(Integer item) {
         checkNullPointerExceptionException(item);
         Integer[] temp = toArray();
-        return binarySearch(quickSort(temp,0,temp.length-1), item);
+        return binarySearch(quickSort(temp, 0, temp.length - 1), item);
     }
 
     private boolean binarySearch(Integer[] arr, Integer element) {
@@ -232,6 +232,7 @@ public class IntegerListImpl implements IntegerList {
         }
         return arr;
     }
+
     public static Integer[] quickSort(Integer[] arr, int begin, int end) {
         if (begin < end) {
             int partitionIndex = partition(arr, begin, end);
@@ -257,6 +258,7 @@ public class IntegerListImpl implements IntegerList {
         swap(arr, i + 1, end);
         return i + 1;
     }
+
     private static Integer[] swap(Integer[] arr, int fIdx, int sIdx) {
         Integer temp = arr[fIdx];
         arr[fIdx] = arr[sIdx];
@@ -270,7 +272,7 @@ public class IntegerListImpl implements IntegerList {
     }
 
     private Integer[] grow() {
-        if (values.length <3){
+        if (values.length < 3) {
             return Arrays.copyOf(values, 5);
         }
         return Arrays.copyOf(values, (int) (values.length * 1.5));
