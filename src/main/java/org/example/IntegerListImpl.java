@@ -5,6 +5,8 @@ import org.example.integerListException.IntegerNotFoundException;
 import org.example.integerListException.ItemIsNullException;
 import org.example.integerListInterface.IntegerList;
 
+import java.util.Arrays;
+
 public class IntegerListImpl implements IntegerList {
     private Integer[] values;
     private int size;
@@ -101,11 +103,11 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(Integer item) {
         checkNullPointerExceptionException(item);
-        sortInsertion();
-        return binarySearch(item);
+
+        return binarySearch(sortInsertion(values), item);
     }
 
-    private boolean binarySearch(Integer element) {
+    private boolean binarySearch(Integer[] arr,Integer element) {
         int min = 0;
         int max = values.length - 1;
 
@@ -192,45 +194,48 @@ public class IntegerListImpl implements IntegerList {
     }
 
 
-    private void sortSelection() {
-        for (int i = 0; i < size; i++) {
-            int minIdx = i;
-            for (int j = i; j < size; j++) {
-                if (values[j] <
-                        values[minIdx]) {
-                    minIdx = j;
+    public static Integer[] sortSelection(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minElementIndex]) {
+                    minElementIndex = j;
                 }
             }
-            swap(i, minIdx);
+            swap(arr, i, minElementIndex);
         }
+        return arr;
     }
 
-    private void sortBubble() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size - 1 - i; j++) {
-                if (values[j] > values[j + 1]) {
-                    swap(j, j + 1);
+    public static Integer[] sortBubble(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j + 1);
                 }
             }
         }
+        return arr;
     }
 
-    private void sortInsertion() {
-        for (int i = 1; i < size; i++) {
-            int temp = values[i];
+    public static Integer[] sortInsertion(Integer[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            int temp = arr[i];
             int j = i;
-            while (j > 0 && values[j - 1] >= temp) {
-                values[j] = values[j - 1];
+            while (j > 0 && arr[j - 1] >= temp) {
+                arr[j] = arr[j - 1];
                 j--;
             }
-            values[j] = temp;
+            arr[j] = temp;
         }
+        return arr;
     }
 
-    private void swap(int fIdx, int sIdx) {
-        Integer temp = values[fIdx];
-        values[fIdx] = values[sIdx];
-        values[sIdx] = temp;
+    private static Integer[] swap(Integer[] arr, int fIdx, int sIdx) {
+        Integer temp = arr[fIdx];
+        arr[fIdx] = arr[sIdx];
+        arr[sIdx] = temp;
+        return arr;
     }
 
     //custom methods
@@ -304,19 +309,29 @@ public class IntegerListImpl implements IntegerList {
     }
 
     static void checkTime(int i) {
-        IntegerListImpl integerList = IntegerListImpl.generateRandomList(10000);
+
+        Integer[] list = IntegerListImpl.generateRandomList(100000).toArray();
+        Integer[] list2 = Arrays.copyOf(list, list.length);
+        Integer[] list3 = Arrays.copyOf(list, list.length);
 
 //        IntegerListImpl.print(integerList);
         long start = System.currentTimeMillis();
-        if (i == 0) {
-            integerList.sortSelection();
-        } else if (i == 1) {
-            integerList.sortBubble();
-        } else {
-            integerList.sortInsertion();
-        }
+            sortSelection(list);
         //ваш_метод_сортировки(arr);
-        System.out.println("Method " + i + " takes " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println("Method sortSelection takes " + (System.currentTimeMillis() - start) + " ms");
+
+        System.out.println();
+
+        start = System.currentTimeMillis();
+        sortBubble(list2);
+        System.out.println("Method sortBubble takes " + (System.currentTimeMillis() - start) + " ms");
+
+        System.out.println();
+
+        start = System.currentTimeMillis();
+        sortInsertion(list3);
+        //ваш_метод_сортировки(arr);
+        System.out.println("Method sortInsertion takes " + (System.currentTimeMillis() - start) + " ms");
 //        IntegerListImpl.print(integerList);
     }
 }
