@@ -91,7 +91,7 @@ class IntegerListImplTest {
         //given
         //do
         //then
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> list.set(i, 1));
+        assertThrows(IllegalIndexException.class, () -> list.set(i, 1));
     }
 
     @Test
